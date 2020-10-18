@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+. ~/env/aliases
+set -euo pipefail
+
+type dbxcli || curlExtract https://github.com/dropbox/dbxcli/releases/download/v3.0.0/dbxcli-linux-amd64 /usr/local/bin/dbxcli
+
+
+
+thisdate="$(dateround  "$(dateadd now -2d)" /-2mo)"
+
+remotedir="/deephacksab/invoice-faktura/$(dateconv -f "%Y-%m" $thisdate)"
+localdir=$HOME/share/deephacksab/invoice-faktura/"$(dateconv -f "%Y-%m" $thisdate)"
+if [ "$(yad --center --on-top --title=Question --image=dialog-question --text="Create dropbox directory:\n $remotedir" --width 500;echo $?)" = "0" ]; then
+  dbxcli ls -l "$remotedir" &>/dev/null || dbxcli mkdir "$remotedir"
+fi
+
+mkdir -vp "$localdir"
+dbxcli ls -l "$remotedir"
+countFiles() {
+  (test -d "$localdir" && fd . "$localdir" | wc -l) || echo 0
+}
+
+numfiles="$(countFiles)"
+[ $numfiles -eq 0 ] && {
+  echo "Put files in $localdir and run again to sync"
+  exit 1
+}
+
+fd . "$localdir" -x dbxcli put "{}" "$remotedir/{/}"
+dbxcli ls -l "$remotedir"
+
+
