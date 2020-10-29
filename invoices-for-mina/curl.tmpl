@@ -1,0 +1,15 @@
+-H 'Connection: keep-alive' \
+-H 'Accept: text/html, */*; q=0.01' \
+-H 'DNT: 1' \
+-H 'X-Requested-With: XMLHttpRequest' \
+-H 'X-PJAX: true' \
+-H 'X-PJAX-Container: .content' \
+-H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36' \
+-H 'Content-Type: application/x-www-form-urlencoded; charset=UTF-8' \
+-H 'Sec-Fetch-Site: same-origin' \
+-H 'Sec-Fetch-Mode: cors' \
+-H 'Sec-Fetch-Dest: empty' \
+-H 'Referer: https://quickbutik.com/admin/orders?s=&status=newcomplete&date=4&date_from=&date_to=&payment_type=&shipping_type=&currency=start_search=' \
+-H 'Accept-Language: en-SE,en;q=0.9,sv-SE;q=0.8,sv;q=0.7,en-US;q=0.6,fr;q=0.5' \
+-H 'Cookie: session=bsd1i0jggkdo92smana64c7bbp; _ga=GA1.2.819634173.1603911545; _gid=GA1.2.1715780606.1603911545; _fbp=fb.1.1603911546123117877205; _gac_UA-60788510-1=1.1603912971.Cj0KCQjwreT8BRDTARIsAJLI0KIRu8QhF4Xzp4lI5rx1CpRSL5vbGCupwBOwCSM4rO4kGeCPezre8okaAmtxEALw_wcB;intercom-id-pjlmfkmx=f51dfdbe-d0ef-4cdd-a7fa-2f1bb627c893; intercom-session-pjlmfkmx=;authautologin=d30ef8d77cc0a8708fddc72c9339b00f76d7f7b0~0bb5531b00ef94b680f35bb82f49851ac409562a; session=bsd1i0jggkdo92smana64c7bbp;__stripe_mid=1ae7fafc-21cc-42eb-9521-e6b18921c62f27fa20; __stripe_sid=57c3e41a-3a68-4ecc-a92d-5ed6e068743976b547; _gat=1' \
+--compressed | html2text -style pretty | jq -R 'split("[ ]{2,}+";"")|if length > 1 then . else empty end |{(.[0]):.[1]}' -c | jq -s add
