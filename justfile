@@ -1,7 +1,7 @@
+set shell := ["bash", "-c"]
 
-
-make-invoice:
-  echo "todo"
-
-sync-dbx:
-  rclone "todo"
+# gitrepo bootstrap hook for building, installing, symlink etc
+bootstrap:
+  #!/bin/bash
+  name="$(basename $(pwd))"
+  log h1 "{W3:$name} nothing to bootstrap"
